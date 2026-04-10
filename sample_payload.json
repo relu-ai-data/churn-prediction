@@ -1,0 +1,24 @@
+{
+  "company_id": "C-1042",
+  "churn_probability": 0.8922,
+  "risk_level": "High",
+  "top_factors": [
+    {
+      "feature": "active_users_ratio",
+      "impact": 0.7226
+    },
+    {
+      "feature": "nps_score",
+      "impact": 0.6827
+    },
+    {
+      "feature": "login_freq_per_week",
+      "impact": 0.4442
+    }
+  ],
+  "recommended_actions": [
+    "CSチームによる緊急フォローアップ実施",
+    "オンボーディング再実施・活用支援",
+    "請求担当者へエスカレーション"
+  ]
+}
