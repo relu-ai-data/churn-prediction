@@ -15,9 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# モデルと特徴量読み込み
 model = joblib.load("model.joblib")
-scaler = joblib.load("scaler.joblib")
 with open("feature_columns.json") as f:
     feature_cols = json.load(f)
 
@@ -36,9 +34,8 @@ class CustomerInput(BaseModel):
 def predict(data: CustomerInput):
     input_dict = data.dict()
     input_df = pd.DataFrame([input_dict])[feature_cols]
-    input_scaled = scaler.transform(input_df)
 
-    prob = model.predict_proba(input_scaled)[0][1]
+    prob = model.predict_proba(input_df)[0][1]
 
     if prob >= 0.7:
         risk_level = "High"
@@ -47,10 +44,10 @@ def predict(data: CustomerInput):
     else:
         risk_level = "Low"
 
-    coef = model.coef_[0]
+    importance = model.feature_importances_
     factors = sorted(
-        zip(feature_cols, coef * input_scaled[0]),
-        key=lambda x: abs(x[1]),
+        zip(feature_cols, importance),
+        key=lambda x: x[1],
         reverse=True
     )
     top_factors = [
